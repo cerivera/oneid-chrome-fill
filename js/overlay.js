@@ -1,11 +1,12 @@
 var $ = jQuery;
 var OVERLAY_ID = 'ocrx-overlay';
 var SIDEBAR_ID = 'ocrx-sidebar';
+var fieldMap = {};
 
-function removeOverlay() {
+function revertAll() {
     $('#'+OVERLAY_ID).remove();
+    $('input').removeClass("ocrx-droppable");
 }
-
 function showOverlay() {
     $('<div></div>')
         .attr("id",OVERLAY_ID)
@@ -23,34 +24,34 @@ function showSidebar() {
 
 function getHtmlForDraggables() {
     var html = '<div class="ocrx-draggables">'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-full-name" class="ocrx-draggable ui-widget-content">'
         + '<p>Full name</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-first-name" class="ocrx-draggable ui-widget-content">'
         + '<p>First name</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-last-name" class="ocrx-draggable ui-widget-content">'
         + '<p>Last name</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-telephone" class="ocrx-draggable ui-widget-content">'
         + '<p>Telephone</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-email" class="ocrx-draggable ui-widget-content">'
         + '<p>Email</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-street1" class="ocrx-draggable ui-widget-content">'
         + '<p>Street 1</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-street2" class="ocrx-draggable ui-widget-content">'
         + '<p>Street 2</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-city" class="ocrx-draggable ui-widget-content">'
         + '<p>City</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-state" class="ocrx-draggable ui-widget-content">'
         + '<p>State</p>'
         + '</div>'
-        + '<div class="ocrx-draggable ui-widget-content">'
+        + '<div id="ocrx-zip" class="ocrx-draggable ui-widget-content">'
         + '<p>Zip</p>'
         + '</div>'
         + '</div>';
@@ -58,12 +59,32 @@ function getHtmlForDraggables() {
 }
 
 function initDraggable() {
-    $( ".ocrx-draggable" ).draggable();
+    $(".ocrx-draggable").draggable();
+    $("input").addClass("ocrx-droppable");
+    $("input").droppable({
+        drop: function( event, ui ) {
+            fieldMap[extractSelectorFromInput(this)] = ui.draggable.attr('id');
+            console.log(JSON.stringify(fieldMap));
+        }
+    });
+}
+
+
+function extractSelectorFromInput(elm) {
+    var selector = $(elm).attr('id');
+    if (selector) {
+        selector = 'id:' + selector;
+    } else {
+        selector = $(elm).attr('name');
+        selector = 'name:' + selector;
+    }
+
+    return selector;
 }
 
 function startApp() {
     if ($('#'+OVERLAY_ID).length) {
-        removeOverlay();
+        revertAll();
     } else {
         showOverlay();
         showSidebar();
