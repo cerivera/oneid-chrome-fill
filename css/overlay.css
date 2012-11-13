@@ -9,10 +9,28 @@
 
 .ocrx-sidebar {
     background-color: #2d78ba;
-    opacity: .8;
-    filter: alpha(opacity=70);
     width: 20%;
     height: 100%;
     float: right;
     border-left: 1px solid #899099;
+}
+
+.ocrx-draggables {
+    margin-top: 50px;
+}
+
+.ocrx-draggable {
+    width: 150px;
+    height: 15px;
+    padding: 0.5em;
+    float: left;
+    margin: 5px;
+    background-color: #FECA2E;
+    border: 1px solid #000000;
+    text-align: right;
+    -webkit-border-radius: 3px;
+}
+
+.ocrx-draggable p {
+    margin: 0px;
 }
