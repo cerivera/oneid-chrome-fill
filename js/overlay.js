@@ -1,16 +1,16 @@
+var $ = jQuery;
+var OVERLAY_ID = 'ocrx-overlay';
+
 function removeOverlay() {
-    var overlay = document.getElementById("ocrx-overlay");
-    if (overlay) {
-        document.body.removeChild(overlay);
-    }
+    $('#'+OVERLAY_ID).remove();
 }
 
 function launchOverlay() {
     removeOverlay();
-    var overlay = document.createElement("div");
-    overlay.setAttribute("id","ocrx-overlay");
-    overlay.setAttribute("class", "ocrx-overlay");
-    document.body.appendChild(overlay);
+    $('<div></div>')
+        .attr("id",OVERLAY_ID)
+        .attr("class", OVERLAY_ID)
+        .appendTo('body');
 }
 
 launchOverlay();
