@@ -53,7 +53,6 @@ function showSidebar() {
 
 function getHtmlForDraggables() {
     var html = ''
-        + getSaveToCloudButton()
         + getTitleHtml('Personal Info')
         + convertFieldDictToDraggablesHtml(personalFields)
         + getTitleHtml('Address Info')
