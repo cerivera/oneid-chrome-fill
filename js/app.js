@@ -2,6 +2,7 @@ var $ = jQuery;
 var OVERLAY_ID = 'ocrx-overlay';
 var SIDEBAR_ID = 'ocrx-sidebar';
 var fieldMap = {};
+//var fieldMap = {"#fullName":"#ocrx-full-name","#shipping_address1":"#ocrx-street1","#shipping_address2":"#ocrx-street2","#shipping_city":"#ocrx-city","#shipping_state":"#ocrx-state","#shipping_zip":"#ocrx-zip","#ccNumber":"#ocrx-card-number","#ccExpires":"#ocrx-card-expiration"}
 var personalFields = {
     'full-name' : 'Full name',
     'first-name' : 'First name',
@@ -38,7 +39,7 @@ function initDraggable() {
     $("input").addClass("ocrx-droppable");
     $("input").droppable({
         drop: function( event, ui ) {
-            fieldMap[extractSelectorFromInput(this)] = ui.draggable.attr('id');
+            fieldMap[extractSelectorFromInput(this)] = '#' + ui.draggable.attr('id');
             console.log(JSON.stringify(fieldMap));
         }
     });
@@ -67,14 +68,13 @@ function getHtmlForDraggables() {
 function extractSelectorFromInput(elm) {
     var selector = $(elm).attr('id');
     if (selector) {
-        selector = 'id:' + selector; } else {
+        selector = '#' + selector; } else {
         selector = $(elm).attr('name');
-        selector = 'name:' + selector;
+        selector = 'input[name="' + selector + '"]';
     }
 
     return selector;
 }
-
 
 
 function startApp() {
@@ -84,10 +84,7 @@ function startApp() {
         showOverlay();
         showSidebar();
         initDraggable();
-        // Something liket his works
-//        $('#carlos').click(function() {
-//            test();
-//        });
+        animateFieldMap();
     }
 }
 
@@ -118,4 +115,19 @@ function getClearHtml() {
     return '<div style="clear: both;"></div>';
 }
 
+function animateFieldMap() {
+    for (field in fieldMap) {
+        console.log(field);
+        animateTileOverElement(fieldMap[field], field);
+    }
+}
 
+function animateTileOverElement(tile, elm) {
+    console.log(tile);
+    console.log(elm);
+    var tileOffset = $(tile).offset();
+    var elmOffset = $(elm).offset();
+    var newTop = elmOffset.top - tileOffset.top;
+    var newLeft = elmOffset.left - tileOffset.left;
+    $(tile).animate({"left": "+=" + newLeft + "px", "top": "+=" + newTop + "px"}, "fast");
+}
