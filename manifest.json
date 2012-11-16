@@ -4,12 +4,15 @@
     "manifest_version": 2,
     "description": "Populate forms from any website.",
     "background":{
-        "scripts" : ["js/main.js"]
+        "scripts" : ["js/background.js"]
     },
     "browser_action": {
-        "default_icon": "icon.png"
+        "default_icon": "images/icon.png"
     },
     "permissions" : [
         "*://*/*"
+    ],
+    "web_accessible_resources": [
+        "images/id-big-logo.png"
     ]
 }
